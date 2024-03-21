@@ -1,0 +1,88 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Book {
+public:
+    string title;
+    string author;
+    int year;
+
+    Book(string title, string author, int year) {
+        this->title = title;
+        this->author = author;
+        this->year = year;
+    }
+};
+
+class Library {
+private:
+    vector<Book> books;
+
+public:
+    void addBook(Book book) {
+        books.push_back(book);
+    }
+
+    void removeBook(string title) {
+        for (int i = 0; i < books.size(); i++) {
+            if (books[i].title == title) {
+                books.erase(books.begin() + i);
+                return;
+            }
+        }
+    }
+
+    void listBooks() {
+        for (Book book : books) {
+            cout << "Title: " << book.title << endl;
+            cout << "Author: " << book.author << endl;
+            cout << "Year: " << book.year << endl;
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Library myLibrary;
+
+    string command;
+
+    while (true) {
+        cout << "Enter command\n1.Add\n2.Remove\n3.List\n4.Exit\nChoose your option:";
+        getline(cin, command);
+
+        if (command == "1") {
+            cout << "Enter title: ";
+            string title;
+            getline(cin, title);
+
+            cout << "Enter author: ";
+            string author;
+            getline(cin, author);
+
+            cout << "Enter publication year: ";
+            int year;
+            cin >> year;
+            cin.ignore();
+
+            myLibrary.addBook(Book(title, author, year));
+        } else if (command == "2") {
+            cout << "Enter title of the book to remove: ";
+            string title;
+            getline(cin, title);
+            myLibrary.removeBook(title);
+        } else if (command == "3") {
+            myLibrary.listBooks();
+        } else if (command == "4") {
+            break;
+        } else {
+            cout << "Invalid command. Try again." << endl;
+        }
+    }
+
+    return 0;
+}
+
